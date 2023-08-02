@@ -41,7 +41,10 @@
 
         <div class="cropped-image-container">
             <h2>Cropped Image</h2>
-            <img id="croppedImage" src="" alt="Cropped Image">
+
+            <img id="croppedImage" src="" alt="Cropped Image" width="200px">
+            <button class="btn btn-danger btn-sm delete-image" data-image="{{ $image_url }}">Delete</button>
+
         </div>
     </div>
     {{-- <input type="text" value="{{ csrf_token() }}"> --}}
@@ -82,6 +85,7 @@
         var $modal = $('#modal');
         var image = document.getElementById('image');
         var cropper;
+        $(".cropped-image-container").hide();
 
         $("body").on("change", ".image", function(e) {
             var files = e.target.files;
@@ -119,8 +123,6 @@
             cropper = null;
         });
 
-        // ... Your previous script code ...
-
         $("#crop").click(function() {
             canvas = cropper.getCroppedCanvas({
                 width: 400,
@@ -144,11 +146,9 @@
                         },
                         success: function(data) {
                             $modal.modal('hide');
-                            alert("Success: Image uploaded");
-
-                            // Set the src attribute of the cropped image element
                             $("#croppedImage").attr("src", base64data);
-                            $(".cropped-image-container").show(); // Show the container
+                            $(".cropped-image-container").show();
+                            console.log(data.image_url);
                         }
                     });
                 }
