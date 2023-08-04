@@ -14,4 +14,8 @@ class Package extends Model
     {
         return $this->belongsTo(Country::class);
     }
+    public function metaTags()
+    {
+        return $this->morphMany(MetaTag::class, 'entity');
+    }
 }

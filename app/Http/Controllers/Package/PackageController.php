@@ -99,7 +99,13 @@ class PackageController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $getSingleData = Package::findOrFail($id);
+            return view('backend.package.edit', compact('getSingleData'));
+        } catch (\Exception $e) {
+            // Handle the exception, such as logging or returning an error response
+            return redirect()->back()->with('error', 'Error: Record not found');
+        }
     }
 
     /**
@@ -122,6 +128,15 @@ class PackageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $deleteSingleData = Package::destroy($id);
+            $deleteMessage = "The Package has been deleted successfully";
+
+            // Redirect back to the edit page with a success message
+            return redirect()->route('package.edit', ['id' => $id])->withSuccess($deleteMessage);
+        } catch (\Exception $e) {
+            // Handle the exception, such as logging or returning an error response
+            return redirect()->route('package.edit', ['id' => $id])->withError('An error occurred while deleting the package.');
+        }
     }
 }
