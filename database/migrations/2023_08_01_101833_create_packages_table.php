@@ -15,8 +15,11 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
+            $table->enum('type', ['international', 'domestic']);
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries');
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->foreign('state_id')->references('id')->on('states');
             $table->string('thumbnail');
             $table->boolean('is_starting_price');
             $table->boolean('is_day_night');

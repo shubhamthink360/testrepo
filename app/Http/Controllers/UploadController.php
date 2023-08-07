@@ -4,16 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+
 
 class UploadController extends Controller
 {
     public function index()
     {
-        return view('upload_image');
+        return view('backend.package.index');
     }
 
     public function store(Request $request)
     {
+        $rules = [
+            'startingPriceCheckbox' => 'nullable|boolean',
+            'dayNightCheckbox' => 'nullable|boolean',
+        ];
+
+        if ($request->input('startingPriceCheckbox')) {
+            $rules['startingPrice'] = 'required|numeric|min:0';
+        }
+        dd('stop');
+        if ($request->input('dayNightCheckbox')) {
+            $rules['addDay'] = 'required|numeric|min:0';
+            $rules['addNight'] = 'required|numeric|min:0';
+        }
+
+        $request->validate($rules);
+
+
         $image_parts = explode(";base64,", $request->image);
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
