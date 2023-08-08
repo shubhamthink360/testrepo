@@ -26,6 +26,7 @@ class CreatePackagesTable extends Migration
             $table->decimal('starting_price', 10, 2)->nullable();
             $table->bigInteger('day')->nullable();
             $table->bigInteger('night')->nullable();
+            $table->boolean('is_published')->comment('0->private, 1->public');
             $table->timestamps();
         });
     }
